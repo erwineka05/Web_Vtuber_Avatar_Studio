@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Live 3D AI Avatar Tracking (Multi-Character Support)</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #111; font-family: sans-serif; }
+    #canvas-container { width: 100vw; height: 100vh; }
+    #webcam { 
+      position: absolute; 
+      top: 10px; 
+      right: 10px; 
+      width: 160px; 
+      height: 120px; 
+      border-radius: 8px; 
+      transform: scaleX(-1); 
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      z-index: 10;
+    }
+
+    #ui-container {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 20;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 8px 16px;
+      border-radius: 30px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      align-items: center;
+    }
+
+    .btn-view, .select-avatar {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .select-avatar option {
+      background: #222;
+      color: #fff;
+    }
+
+    .btn-view:hover, .select-avatar:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-view.active {
+      background: #4f46e5;
+      box-shadow: 0 0 12px rgba(79, 70, 229, 0.6);
+    }
+  </style>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+        "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.0.6/lib/three-vrm.module.js"
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic/holistic.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/kalidokit@1.1.5/dist/kalidokit.umd.js"></script>
+</head>
+<body>
+  <video id="webcam" autoplay playsinline muted></video>
+  <div id="canvas-container"></div>
+
+  <div id="ui-container">
+    <!-- Pilihan Karakter VRM -->
+    <select id="select-avatar" class="select-avatar">
+      <option value="./models/avatar.vrm">Karakter 1</option>
+      <option value="./models/avatar1.vrm">Karakter 2</option>
+      <option value="./models/avatar2.vrm">Karakter 3</option>
+    </select>
+
+    <!-- Tombol Mode Kamera -->
+    <button id="btn-face" class="btn-view">Wajah (High FPS)</button>
+    <button id="btn-body" class="btn-view active">Full Body</button>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
